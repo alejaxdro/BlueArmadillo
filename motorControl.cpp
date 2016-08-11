@@ -1,82 +1,68 @@
-/*
- * roboClawLib.c
- *
- *  Created on: Jan 18, 2014
- *      Author: kerry
- */
- 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include "roboClaw.h"
-#include <stdlib.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <string.h>
+// Motor Control Library
+//
+// Commands for communicating with RoboClaw r3 sold by Pololu.com
+// 
+// Written by: Alejandro Lepervanche
+// For Engineers, By Engineers
 
-/**************************************************************************/
-/**********************  Function_Definitions  ****************************/
-/**************************************************************************/
+#include <cstdio>
+//#include <cstdint>
+//#include <cstdbool>
+#include "motorControl.h"
+#include <cstdlib>
+//#include <cfcntl>
+//#include <ctermios>
+#include <cstring>
 
-/**********************  Function_write_n  *****************************/
+
 void write_n(unsigned char data[], int serial){
-	//Local Declarations
 	int n = NELEMS(data);
 	unsigned char checksum = 0;
-	int i; // index
+	int i;
 
-	//Statements
 	for(i = 0; i < n; i++){
 		checksum += data[i];
 	}
 	data[n-1] = checksum & MASK;
+	// Writes serial data of size data. Just in case it wasn't clear.
 	write(serial, data, sizeof(data));
 }
 
-/**********************  Function_read_n  ****************************/
 bool read_n(unsigned char address,unsigned char cmd, int length, unsigned char dataArray[],int serial){
-	//Local Declarations
+	// Might not work.. needs testing..
 	dataArray[length];
 	int valid = FALSE;
 	int i; // index
 	unsigned char checksum = address;
-   unsigned char msg[length];
-   msg[0] = address;
-   msg[1] = cmd;
-   msg[2] = (address + cmd) & MASK;
-   
-	//Statements
+	unsigned char msg[length];
+	msg[0] = address;
+	msg[1] = cmd;
+	msg[2] = (address + cmd) & MASK;
+
 	checksum += cmd;
 	//write(serial,msg,sizeof(msg));
 	write_n(msg,serial);
 	unsigned int ccrc = read(serial, msg, sizeof(msg));
-    printf("received: %d\n", ccrc);
+	printf("received: %d\n", ccrc);
 	for(i = 0; i < length; i++){
 		checksum += msg[i];
-	} // end for
+	}
 	printf("checksum   >>> %d\n", checksum);
 	if((checksum & MASK) == ccrc){
 		valid = TRUE;
 	}
-    close(serial);
+	close(serial);
 	return valid;
 }
 
-/**********************Function_isSerialOpen****************************/
 bool isSerialOpen(int serial){
-	//Local Declaration
 	int valid = FALSE;
-
-	//Statements
 	if(serial != CLOSED)
 		valid = TRUE;
-
 	return valid;
 }
 
-/**********************Function_closeSerial****************************/
 void closeSerial(int serial){
-	//Statements
 	if(isSerialOpen(serial) == TRUE)
 		close(serial);
 }

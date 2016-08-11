@@ -1,5 +1,7 @@
 using namespace std;
 #include <iostream>
+#include <fcntl.h>
+#include "motorControl.cpp"
 
 #define DEBUG 0
 
@@ -13,9 +15,10 @@ using namespace std;
 
 int main ()
 {
-   double a;
-
-   cout << "Hello, this is a test program." << endl;
+   int ser4 = open("/dev/ttyO4", O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
    
+   cout << "Hello, the file descriptor is " << ser4 << endl;
+   
+   close( ser4 );
    return 0;
 }
