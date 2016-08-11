@@ -2,6 +2,7 @@ using namespace std;
 #include <iostream>
 #include <fcntl.h>
 #include "motorControl.cpp"
+#include "motor.cpp"
 
 #define DEBUG 0
 
@@ -17,7 +18,10 @@ int main ()
 {
    int ser4 = open("/dev/ttyO4", O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
    
-   cout << "Hello, the file descriptor is " << ser4 << endl;
+   Motor motorLeft;
+   Motor motorRight;
+   
+   cout << "Hello, the file descriptor is " << motorLeft.getId() << endl;
    
    close( ser4 );
    return 0;
