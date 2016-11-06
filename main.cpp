@@ -1,8 +1,18 @@
+// Blue Armadillo Robot Control System using Beaglebone Black with Debian
+
 using namespace std;
 #include <iostream>
 #include <fcntl.h>
+#include <cstdio>
+//#include <cstdint>
+//#include <cstdbool>
+#include <cstdlib>
+//#include <cfcntl>
+//#include <ctermios>
+#include <cstring>
+
 #include "motorControl.cpp"
-#include "motor.cpp"
+#include "WheelsController.cpp"
 
 #define DEBUG 0
 
@@ -16,13 +26,17 @@ using namespace std;
 
 int main ()
 {
-   int ser4 = open("/dev/ttyO4", O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
+   char fd[] = "/dev/ttyO4";
+   // Init UART01
+   WheelsController motor( fd );
+   // Set mode - use default
    
-   Motor motorLeft;
-   Motor motorRight;
+   // Move motor
+   motor.motor1Control( 40, M1FORWARD );
+   DEBUG_PRINT()
+   sleep(1);
+   motor.motor1Control( 0, M1FORWARD );
    
-   cout << "Hello, the file descriptor is " << motorLeft.getId() << endl;
-   
-   close( ser4 );
+   cout << endl;
    return 0;
 }
