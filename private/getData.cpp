@@ -25,23 +25,17 @@ and writes from specified adresses on each device.
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
+#include "getData.h"
 
 
-// Declare User Functions
-void read_sensor( unsigned char data[], unsigned char addr, unsigned char reg);
-void getData( void );
-void displayprompt( void );
-void init9axis( void );
-
-
-// **************************** User-Defined Functions ****************************
+// ******** User-Defined Functions ********
 
 
 void init9axis( void ){
 
    // Initialize 9-axis Sensors
 	system( "i2cset -y 1 0x1d 0x20 0x57" ); // ctrl1	
-   system( "i2cset -y 1 0x1d 0x21 0x20" ); // ctrl2
+    system( "i2cset -y 1 0x1d 0x21 0x20" ); // ctrl2
 	system( "i2cset -y 1 0x1d 0x24 0xF0" ); // ctrl5 Enables Temp and Sets magn data rate to 50Hz
 	system( "i2cset -y 1 0x1d 0x25 0x20" ); // ctrl6
 	system( "i2cset -y 1 0x1d 0x26 0x80" ); // ctrl7 Normal Mode
@@ -61,7 +55,7 @@ void getData(){
    
    // Collect Data p times
 //	for ( p = 0; p < 1; p++ ){
-      DEBUG_PRINT( "\n*********************** GetData() **********************\n" );
+      //DEBUG_PRINT( "\n*********************** GetData() **********************\n" );
 /*
       // Get Acceleration XYZ Data from I2C port
       DEBUG_PRINT( "************** ACCELEROMETER DATA ************\n" );
@@ -83,7 +77,7 @@ void getData(){
 */      
 		
       // Get Magnetometer XYZ Data from I2C port
-      DEBUG_PRINT("************** MAGNETOMETER DATA *************\n");
+      //DEBUG_PRINT("************** MAGNETOMETER DATA *************\n");
 		addr = 0x1d;// accel_mag
 		reg = 0x05; // Device register to access mag data
 		read_sensor( data , addr, reg ); //send device address and register to start read from (data= 8 bytes read)	
@@ -98,7 +92,7 @@ void getData(){
       magn.data.y.val = ~magn.data.y.val + 1;
       magn.data.z.val = ~magn.data.z.val + 1;
       // Display Data
-      DEBUG_PRINT(" X val = %d\n Y val = %d\n Z val = %d \n",magn.data.x.val,magn.data.y.val, magn.data.z.val);      
+      //DEBUG_PRINT(" X val = %d\n Y val = %d\n Z val = %d \n",magn.data.x.val,magn.data.y.val, magn.data.z.val);      
       
 /*		
       // Get Gyroscope XYZ Data from I2C port

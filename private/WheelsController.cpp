@@ -3,26 +3,12 @@
 ** Commands for communicating with RoboClaw r3 sold by Pololu.com
 **
 ** Written by: Alejandro Lepervanche
-** For Engineers, By Engineers
+** For Everyone, By Engineers
 ** 
 ** This software is to be used
 */
  
 #include "WheelsController.h"
-
-class WheelsController
-{
-	private:
-      int motorController_fd; // file descriptor
-		void write_cmd( unsigned char data[]);
-		void motorMove( unsigned char speed, int mode );
-		
-	public:
-		WheelsController( char* filename );
-		~WheelsController();
-      void motor1Control( unsigned char speed, int mode );
-		
-};
 
 WheelsController::WheelsController( char* filename ){
    // Opens motor serial hardware interface i.e. UART01

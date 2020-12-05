@@ -56,3 +56,17 @@
 #define	MIXEDDUTYACCEL 54
 #define	GETERROR 90
 #define	WRITENVM 94
+
+class WheelsController
+{
+	private:
+      int motorController_fd; // file descriptor
+		void write_cmd( unsigned char data[]);
+		void motorMove( unsigned char speed, int mode );
+		
+	public:
+		WheelsController( char* filename );
+		~WheelsController();
+      void motor1Control( unsigned char speed, int mode );
+		
+};
