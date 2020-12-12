@@ -25,11 +25,15 @@ and writes from specified adresses on each device.
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
-#include "getData.h"
+#include "../include/getData.h"
+#include <fstream>
 
+// Global Variables
+SENSOR_BUF accel;
+SENSOR_BUF magn;
+SENSOR_BUF gyro;
 
 // ******** User-Defined Functions ********
-
 
 void init9axis( void ){
 
@@ -47,7 +51,7 @@ void init9axis( void ){
 
 
 
-void getData(){
+SENSOR_BUF getData(){
    // Local Declarations
    int i, p;
    unsigned char addr, reg;
@@ -91,7 +95,8 @@ void getData(){
       magn.data.x.val = ~magn.data.x.val + 1;
       magn.data.y.val = ~magn.data.y.val + 1;
       magn.data.z.val = ~magn.data.z.val + 1;
-      // Display Data
+      return  magn;
+// Display Data
       //DEBUG_PRINT(" X val = %d\n Y val = %d\n Z val = %d \n",magn.data.x.val,magn.data.y.val, magn.data.z.val);      
       
 /*		

@@ -8,7 +8,11 @@
 ** This software is to be used
 */
  
-#include "WheelsController.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <cstdlib>
+//#include <fstream>
+#include "../include/WheelsController.h"
 
 WheelsController::WheelsController( char* filename ){
    // Opens motor serial hardware interface i.e. UART01

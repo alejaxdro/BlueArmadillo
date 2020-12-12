@@ -25,18 +25,13 @@ typedef struct{
       SH_CH2 y;
       SH_CH2 z;
    } SENSOR_XYZ; 
-typedef union{
+typedef union sensor_buf{
       SENSOR_XYZ data;
       unsigned char byt[6];
    } SENSOR_BUF;
 
-// Global Variables
-SENSOR_BUF accel;
-SENSOR_BUF magn;
-SENSOR_BUF gyro;
-
 // Declare User Functions
 extern void init9axis( void );
 void read_sensor( unsigned char data[], unsigned char addr, unsigned char reg);
-extern void getData( void );
+extern SENSOR_BUF getData( void );
 void displayprompt( void );

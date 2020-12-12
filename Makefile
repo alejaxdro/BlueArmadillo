@@ -1,24 +1,32 @@
 # Makefile
 
-OBJS = main.o hailstone.o
+TARGET_EXEC ?= armadillo
+BIN_DIR ?= ./bin
+SRC_DIR ?= ./src
+
+OBJS = bin/main.o bin/getData.o bin/motorControl.o bin/WheelsController.o
 CC = g++
-CFLAGS = -Wall -c -std=c++0x
+CFLAGS = -Wall -c
 LFLAGS = -Wall
+SRCS = $(SRC_DIR)/*.cpp
 
-all: $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o hailstone
+$(BIN_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o $(BIN_DIR)/armadillo
 
-#hailstone : main.o hailstone.o
-#	g++ main.o hailstone.o -o hailstone
+$(BIN_DIR)/main.o : src/main.cpp include/getData.h include/motorControl.h include/WheelsController.h
+	$(CC) $(CFLAGS) src/main.cpp -o bin/main.o
 
-main.o : main.cpp hailstone.h
-	$(CC) $(CFLAGS) main.cpp
+$(BIN_DIR)/getData.o : src/getData.cpp include/getData.h
+	$(CC) $(CFLAGS) src/getData.cpp -o bin/getData.o
 
-hailstone.o : hailstone.cpp hailstone.h
-	$(CC) $(CFLAGS) hailstone.cpp
+$(BIN_DIR)/motorControl.o : src/motorControl.cpp include/motorControl.h
+	$(CC) $(CFLAGS) src/motorControl.cpp -o bin/motorControl.o
+
+$(BIN_DIR)/WheelsController.o : src/WheelsController.cpp include/WheelsController.h
+	$(CC) $(CFLAGS) src/WheelsController.cpp -o bin/WheelsController.o
 
 clean: 
-	rm *.o hailstone
+	rm $(BIN_DIR)/*.o $(BIN_DIR)/armadillo
 
 tar:
-	tar -zcvf hailstone.tar.gz Makefile *.cpp *.h
+	tar -zcvf BlueArmadillo.tar.gz Makefile *.cpp *.h

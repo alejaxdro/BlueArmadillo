@@ -1,6 +1,7 @@
 
 #define NELEMS(x)  (sizeof(x) / sizeof(x[0]))  // length of array
 #define ADDRESS 128
+#define	MASK 0X7F
 #define CRC 0
 
 // RoboClaw Specific Commands

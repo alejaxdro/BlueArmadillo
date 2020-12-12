@@ -5,15 +5,15 @@
 // Written by: Alejandro Lepervanche
 // For Engineers, By Engineers
 
-#include <cstdio>
+//#include <cstdio>
 //#include <cstdint>
 //#include <cstdbool>
-#include "public/motorControl.h"
+#include "../include/motorControl.h"
 #include <cstdlib>
 //#include <cfcntl>
 //#include <ctermios>
-#include <cstring>
-
+//#include <cstring>
+#include <fstream>
 
 void write_n(unsigned char data[], int serial){
 	int n = NELEMS(data);

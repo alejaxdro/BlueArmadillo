@@ -6,7 +6,7 @@ using namespace std;
 #include <cstdio>
 //#include <cstdint>
 //#include <cstdbool>
-#include <cstdlib>
+//#include <cstdlib>
 //#include <cfcntl>
 //#include <ctermios>
 #include <cstring>
@@ -15,9 +15,9 @@ using namespace std;
 #include <ctime>
 #include <cmath>
 
-#include "motorControl.cpp"
-#include "WheelsController.cpp"
-#include "getData.cpp"
+#include "../include/motorControl.h"
+#include "../include/WheelsController.h"
+#include "../include/getData.h"
 
 #define DEBUG 1
 
@@ -42,7 +42,7 @@ int main (int argc, char* argv[])
    // Set mode - use default
    
    ofstream myfile;
-   myfile.open("data1.txt");
+   myfile.open("armadillo.log");
    time_t start1, end1;
 	
    SENSOR_BUF magnData[1000];
@@ -58,7 +58,7 @@ int main (int argc, char* argv[])
    DEBUG_PRINT("Tracking 0 ...\n");
    time(&start1);
 	while(search_bool){
-		getData();
+		SENSOR_BUF magn = getData();
 		angle = xy2deg(magn.data.x.val, magn.data.y.val);
 		// Calculate motor speed
 		motorSpeed = (double) angle * 270.0/MAX_ANGLE;
