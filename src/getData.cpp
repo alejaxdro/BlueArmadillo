@@ -25,8 +25,11 @@ and writes from specified adresses on each device.
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
-#include "../include/getData.h"
+#include <unistd.h> // read/write/close
 #include <fstream>
+
+#include "../include/getData.h"
+
 
 // Global Variables
 SENSOR_BUF accel;

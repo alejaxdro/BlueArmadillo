@@ -3,17 +3,12 @@
 // Commands for communicating with RoboClaw r3 sold by Pololu.com
 // 
 // Written by: Alejandro Lepervanche
-// For Engineers, By Engineers
 
-//#include <cstdio>
-//#include <cstdint>
-//#include <cstdbool>
-#include "../include/motorControl.h"
 #include <cstdlib>
-//#include <cfcntl>
-//#include <ctermios>
-//#include <cstring>
+#include <unistd.h> // read/write/close
 #include <fstream>
+
+#include "../include/motorControl.h"
 
 void write_n(unsigned char data[], int serial){
 	int n = NELEMS(data);
