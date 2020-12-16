@@ -20,7 +20,7 @@ WheelsController::WheelsController( char* filename ){
 	motorController_fd = open(filename, O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
 	if( motorController_fd <= 0 ){
 		DEBUG_PRINT("Serial Port not opened. fd=%d\n", motorController_fd);
-		exit(1);
+		//exit(1);
 	}
 }
 

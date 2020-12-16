@@ -21,7 +21,7 @@ typedef union sensor_buf{
    } SENSOR_BUF;
 
 // Declare User Functions
-extern void init9axis( void );
+extern int init9axis( void );
 void read_sensor( unsigned char data[], unsigned char addr, unsigned char reg);
 extern SENSOR_BUF getData( void );
 void displayprompt( void );

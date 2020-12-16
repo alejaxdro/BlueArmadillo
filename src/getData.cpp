@@ -39,19 +39,21 @@ SENSOR_BUF gyro;
 
 // ******** User-Defined Functions ********
 
-void init9axis( void ){
+int init9axis( void ){
+   int ret = 0;
 
    // Initialize 9-axis Sensors
-	system( "i2cset -y 1 0x1d 0x20 0x57" ); // ctrl1	
+   DEBUG_PRINT("Redo this without System Calls...");
+	ret = system( "i2cset -y 1 0x1d 0x20 0x57" ); // ctrl1	
    system( "i2cset -y 1 0x1d 0x21 0x20" ); // ctrl2
 	system( "i2cset -y 1 0x1d 0x24 0xF0" ); // ctrl5 Enables Temp and Sets magn data rate to 50Hz
 	system( "i2cset -y 1 0x1d 0x25 0x20" ); // ctrl6
 	system( "i2cset -y 1 0x1d 0x26 0x80" ); // ctrl7 Normal Mode
-	DEBUG_PRINT( "accel_mag on\n" );
+	DEBUG_PRINT( "System Calls.. accel_mag on\n" );
 	system( "i2cset -y 1 0x6b 0x20 0x0f" ); // ctrl1
-	DEBUG_PRINT( "gyro on\n" );
-     
-}// end init9axis
+	DEBUG_PRINT( "System Calls.. gyro on\n" );
+   return ret;
+}
 
 
 
@@ -136,7 +138,7 @@ void read_sensor( unsigned char data[], unsigned char addr, unsigned char reg){
 	
 	sprintf(filename,"/dev/i2c-1");
 	if ((file = open(filename,O_RDWR)) < 0) {
-		printf("Failed to open the bus.");
+		DEBUG_PRINT("Failed to open the bus.");
 		/* ERROR HANDLING; you can check errno to see what went wrong */
 		exit(1);
 	}
