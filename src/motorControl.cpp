@@ -8,6 +8,7 @@
 #include <unistd.h> // read/write/close
 #include <fstream>
 
+#include "../include/log.h"
 #include "../include/motorControl.h"
 
 void write_n(unsigned char data[], int serial){
@@ -38,11 +39,11 @@ bool read_n(unsigned char address,unsigned char cmd, int length, unsigned char d
 	//write(serial,msg,sizeof(msg));
 	write_n(msg,serial);
 	unsigned int ccrc = read(serial, msg, sizeof(msg));
-	printf("received: %d\n", ccrc);
+	DEBUG_PRINT("received: %d\n", ccrc);
 	for(i = 0; i < length; i++){
 		checksum += msg[i];
 	}
-	printf("checksum   >>> %d\n", checksum);
+	DEBUG_PRINT("checksum   >>> %d\n", checksum);
 	if((checksum & MASK) == ccrc){
 		valid = TRUE;
 	}
