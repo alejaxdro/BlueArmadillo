@@ -28,6 +28,7 @@ and writes from specified adresses on each device.
 #include <unistd.h> // read/write/close
 #include <fstream>
 
+#include "../include/log.h"
 #include "../include/getData.h"
 
 
@@ -42,7 +43,7 @@ void init9axis( void ){
 
    // Initialize 9-axis Sensors
 	system( "i2cset -y 1 0x1d 0x20 0x57" ); // ctrl1	
-    system( "i2cset -y 1 0x1d 0x21 0x20" ); // ctrl2
+   system( "i2cset -y 1 0x1d 0x21 0x20" ); // ctrl2
 	system( "i2cset -y 1 0x1d 0x24 0xF0" ); // ctrl5 Enables Temp and Sets magn data rate to 50Hz
 	system( "i2cset -y 1 0x1d 0x25 0x20" ); // ctrl6
 	system( "i2cset -y 1 0x1d 0x26 0x80" ); // ctrl7 Normal Mode
@@ -56,7 +57,7 @@ void init9axis( void ){
 
 SENSOR_BUF getData(){
    // Local Declarations
-   int i, p;
+   int i;//, p;
    unsigned char addr, reg;
    unsigned char data[9];// Read 9 bytes of data
    
@@ -132,7 +133,6 @@ void read_sensor( unsigned char data[], unsigned char addr, unsigned char reg){
 	int file;
 	char filename[40];
 	char buf[256] = {0};
-	int i = 0;
 	
 	sprintf(filename,"/dev/i2c-1");
 	if ((file = open(filename,O_RDWR)) < 0) {
@@ -147,17 +147,17 @@ void read_sensor( unsigned char data[], unsigned char addr, unsigned char reg){
 	}
    
 	/*writes to i2c device*/
-	for (i; i<9; i++){
+	for (int i = 0; i<9; i++){
 		buf[0] = reg;
 		reg++;
 		if (write(file,buf,1) != 1) {
 			/* ERROR HANDLING: i2c transaction failed */
-			printf("Failed to write to the i2c bus. Errno = %f\n", errno);
+			printf("Failed to write to the i2c bus. Errno = %d\n", errno);
 			printf("\n\n");
       }
       if (read(file,buf,1) != 1) {
          /* ERROR HANDLING: i2c transaction failed */
-         printf("Failed to read from the i2c bus. Errno = %f\n", errno);         
+         printf("Failed to read from the i2c bus. Errno = %d\n", errno);         
          printf("\n\n");
       } else {
          data[i]=buf[0];

@@ -15,6 +15,7 @@ using namespace std;
 #include <ctime>
 #include <cmath>
 
+#include "../include/log.h"
 #include "../include/motorControl.h"
 #include "../include/WheelsController.h"
 #include "../include/getData.h"
@@ -23,8 +24,7 @@ using namespace std;
 
 #if defined(DEBUG) && DEBUG > 0
  #define DEBUG_PRINT(fmt, args...) fprintf(stderr, fmt, ##args)
- //fprintf(stderr, "DEBUG: %s:%d:%s(): " fmt, \
-    __FILE__, __LINE__, __func__, ##args)
+ //fprintf(stderr, "DEBUG: %s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, ##args)
 #else
  #define DEBUG_PRINT(fmt, args...) // Don't do anything in release builds
 #endif
@@ -45,7 +45,7 @@ int main (int argc, char* argv[])
    myfile.open("armadillo.log");
    time_t start1, end1;
 	
-   SENSOR_BUF magnData[1000];
+   //SENSOR_BUF magnData[1000];
    init9axis();
 	
 	bool search_bool = true;
@@ -88,7 +88,7 @@ int main (int argc, char* argv[])
 		myfile << i <<","<< xy2deg(magnData[i].data.x.val, magnData[i].data.y.val) << "\n";
    }
  */   time(&end1);
-   DEBUG_PRINT("Time: Diff: %d\n", difftime( end1, start1 ));//CLOCKS_PER_SEC);
+   DEBUG_PRINT("Time: Diff: %f\n", difftime( end1, start1 ));//CLOCKS_PER_SEC);
 	// measured 57 seconds for 10000 reads of Magnetometer 
 	// 	57/10000 = .0057 secs/sample ==> ~175 samples per second
 	

@@ -13,7 +13,7 @@ SRCS = $(SRC_DIR)/*.cpp
 $(BIN_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o $(BIN_DIR)/armadillo
 
-$(BIN_DIR)/main.o : src/main.cpp include/getData.h include/motorControl.h include/WheelsController.h
+$(BIN_DIR)/main.o : src/main.cpp include/log.h include/getData.h include/motorControl.h include/WheelsController.h
 	$(CC) $(CFLAGS) src/main.cpp -o bin/main.o
 
 $(BIN_DIR)/getData.o : src/getData.cpp include/getData.h
