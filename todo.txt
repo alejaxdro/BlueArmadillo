@@ -1,4 +1,8 @@
 how to tune system
-make a makefile
+done: make a makefile
 make a system diagram text based diagram
 make a roboclaw motorcontroller library
+make a imuSensor class
+refactor mockIMUSensor to inherit imuSensor class
+get status from motor controller
+rewrite imuSensor init function without system calls.

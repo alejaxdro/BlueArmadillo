@@ -4,11 +4,6 @@ using namespace std;
 #include <iostream>
 #include <fcntl.h>
 #include <cstdio>
-//#include <cstdint>
-//#include <cstdbool>
-//#include <cstdlib>
-//#include <cfcntl>
-//#include <ctermios>
 #include <cstring>
 #include <algorithm>
 #include <fstream>
@@ -18,27 +13,49 @@ using namespace std;
 #include "../include/log.h"
 #include "../include/motorControl.h"
 #include "../include/WheelsController.h"
-#include "../include/getData.h"
+//#include "../include/getData.h"
+#include "../include/MockIMUsensor.h"
 
 int xy2deg(int x, int y);
 int limit( int x, int min, int max );
 
 int main (int argc, char* argv[])
 {
-	std::cout << argv[0] << std::endl;
+	const string test = "--test";
+	const string help = "--help";
+	bool useMockDevices = false;
+
+	for(int i = 0; i < argc; ++i){
+		if(help.compare(argv[i]) == 0){
+			cout << "This program controls robot Blue Armadillo" << endl
+				 << " use --test to use mock classes" << endl;
+			return 0;
+		}
+		if(test.compare(argv[i]) == 0){
+			useMockDevices = true;
+		}
+	}
+	
 	DEBUG_PRINT("Start of Program\n");
-	char fd[] = "/dev/ttyO4";
-	// Init UART01 
-	WheelsController motor( fd );
-	// Set mode - use default
 
 	ofstream myfile;
 	myfile.open("armadillo.log");
 	time_t start1, end1;
 
-	if(!init9axis()){
-		DEBUG_PRINT("IMU Init Failed.");
-	}
+	char fd_mc[] = "/dev/ttyO4";
+	// Init UART01 
+	WheelsController motor( fd_mc );
+
+	char fd_imu[] = "/dev/i2c-1";
+	//if(!useMockDevices){
+		MockIMUsensor imuSensor( fd_imu );
+	//}else{
+		// TODO: create IMUsensor class
+		// IMUsensor imuSensor( fd_imu );
+	//}
+	//if(!init9axis()){
+	//	DEBUG_PRINT("IMU Init Failed.");
+	//}
 
 	bool search_bool = true;
 	int angle = 0;
@@ -50,16 +67,20 @@ int main (int argc, char* argv[])
 	DEBUG_PRINT("Tracking 0 ...\n");
 	time(&start1);
 	while(search_bool){
-		SENSOR_BUF magn = getData();
+		// TODO: use class call. SENSOR_BUF magn = getData();
+		SENSOR_BUF magn = imuSensor.getDataMagn();
 		angle = xy2deg(magn.data.x.val, magn.data.y.val);
+
 		// Calculate motor speed
 		motorSpeed = (double) angle * 270.0/MAX_ANGLE;
 		motorSpeed = limit( motorSpeed, MIN_SPEED, MAX_SPEED );
+
 		if(angle < 0){
 			motor.motor1Control( motorSpeed, MIXEDLEFT );
 		}else{
 			motor.motor1Control( motorSpeed, MIXEDRIGHT );
 		}
+
 		DEBUG_PRINT("MotorSpeed: %d, Angle: %d\n", motorSpeed, angle);
 		myfile << motorSpeed <<","<< angle << "\n";
 		
