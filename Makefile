@@ -5,7 +5,7 @@ BIN_DIR ?= ./bin
 SRC_DIR ?= ./src
 
 #OBJS = bin/main.o bin/getData.o bin/motorControl.o bin/WheelsController.o
-OBJS = bin/main.o bin/MockIMUsensor.o bin/motorControl.o bin/WheelsController.o
+OBJS = bin/main.o bin/IMUsensor.o bin/motorControl.o bin/WheelsController.o
 CC = g++
 CFLAGS = -Wall -c
 LFLAGS = -Wall
@@ -15,13 +15,13 @@ $(BIN_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o $(BIN_DIR)/armadillo
 
 #$(BIN_DIR)/main.o : src/main.cpp include/log.h include/getData.h include/motorControl.h include/WheelsController.h
-$(BIN_DIR)/main.o : src/main.cpp include/log.h include/MockIMUsensor.h include/motorControl.h include/WheelsController.h
+$(BIN_DIR)/main.o : src/main.cpp include/log.h include/IMUsensor.h include/motorControl.h include/WheelsController.h
 	$(CC) $(CFLAGS) src/main.cpp -o bin/main.o
 
 #$(BIN_DIR)/getData.o : src/getData.cpp include/getData.h
 #	$(CC) $(CFLAGS) src/getData.cpp -o bin/getData.o
-$(BIN_DIR)/MockIMUsensor.o : src/MockIMUsensor.cpp include/MockIMUsensor.h
-	$(CC) $(CFLAGS) src/MockIMUsensor.cpp -o bin/MockIMUsensor.o
+$(BIN_DIR)/IMUsensor.o : src/IMUsensor.cpp include/IMUsensor.h
+	$(CC) $(CFLAGS) src/IMUsensor.cpp -o bin/IMUsensor.o
 
 $(BIN_DIR)/motorControl.o : src/motorControl.cpp include/motorControl.h
 	$(CC) $(CFLAGS) src/motorControl.cpp -o bin/motorControl.o

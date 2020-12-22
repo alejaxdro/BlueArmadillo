@@ -13,17 +13,21 @@ using namespace std;
 #include "../include/log.h"
 #include "../include/motorControl.h"
 #include "../include/WheelsController.h"
+
+#define MOCK_DEVICES
+
+//#if define MOCK_DEVICES
+#include "../include/IMUsensor.h"
+//#else
 //#include "../include/getData.h"
-#include "../include/MockIMUsensor.h"
+//#endif
 
 int xy2deg(int x, int y);
 int limit( int x, int min, int max );
 
 int main (int argc, char* argv[])
 {
-	const string test = "--test";
 	const string help = "--help";
-	bool useMockDevices = false;
 
 	for(int i = 0; i < argc; ++i){
 		if(help.compare(argv[i]) == 0){
@@ -31,15 +35,11 @@ int main (int argc, char* argv[])
 				 << " use --test to use mock classes" << endl;
 			return 0;
 		}
-		if(test.compare(argv[i]) == 0){
-			useMockDevices = true;
-		}
 	}
-	
-	DEBUG_PRINT("Start of Program\n");
 
 	ofstream myfile;
 	myfile.open("armadillo.log");
+	DEBUG_PRINT("Log Created:: armadillo.log\n");
 	time_t start1, end1;
 
 	char fd_mc[] = "/dev/ttyO4";
@@ -47,15 +47,10 @@ int main (int argc, char* argv[])
 	WheelsController motor( fd_mc );
 
 	char fd_imu[] = "/dev/i2c-1";
-	//if(!useMockDevices){
-		MockIMUsensor imuSensor( fd_imu );
-	//}else{
-		// TODO: create IMUsensor class
-		// IMUsensor imuSensor( fd_imu );
-	//}
-	//if(!init9axis()){
-	//	DEBUG_PRINT("IMU Init Failed.");
-	//}
+	IMUsensor imuSensor( fd_imu );
+	if(!imuSensor.connectedStatus){
+		DEBUG_PRINT("Main: imuSensor Not Connected.");
+	}
 
 	bool search_bool = true;
 	int angle = 0;
