@@ -13,14 +13,8 @@ using namespace std;
 #include "../include/log.h"
 #include "../include/motorControl.h"
 #include "../include/WheelsController.h"
-
-#define MOCK_DEVICES
-
-//#if define MOCK_DEVICES
 #include "../include/IMUsensor.h"
-//#else
-//#include "../include/getData.h"
-//#endif
+
 
 int xy2deg(int x, int y);
 int limit( int x, int min, int max );
@@ -39,7 +33,7 @@ int main (int argc, char* argv[])
 
 	ofstream myfile;
 	myfile.open("armadillo.log");
-	DEBUG_PRINT("Log Created:: armadillo.log\n");
+	DEBUG_PRINT("Main: Log Created: armadillo.log\n");
 	time_t start1, end1;
 
 	char fd_mc[] = "/dev/ttyO4";
@@ -49,7 +43,7 @@ int main (int argc, char* argv[])
 	char fd_imu[] = "/dev/i2c-1";
 	IMUsensor imuSensor( fd_imu );
 	if(!imuSensor.connectedStatus){
-		DEBUG_PRINT("Main: imuSensor Not Connected.");
+		DEBUG_PRINT("Main: imuSensor Not Connected.\n");
 	}
 
 	bool search_bool = true;
@@ -59,7 +53,7 @@ int main (int argc, char* argv[])
 	double MAX_ANGLE = 180.0;
 	double MIN_SPEED = 0.0;
 
-	DEBUG_PRINT("Tracking 0 ...\n");
+	DEBUG_PRINT("Main: Tracking 0 ...\n");
 	time(&start1);
 	while(search_bool){
 		// TODO: use class call. SENSOR_BUF magn = getData();

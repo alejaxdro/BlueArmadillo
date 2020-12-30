@@ -33,4 +33,4 @@ clean:
 	rm $(BIN_DIR)/*.o $(BIN_DIR)/armadillo
 
 tar:
-	tar -zcvf BlueArmadillo.tar.gz Makefile *.cpp *.h
+	tar -zcvf BlueArmadillo.tar.gz Makefile src/*.cpp include/*.h

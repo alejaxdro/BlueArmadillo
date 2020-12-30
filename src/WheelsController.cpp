@@ -19,7 +19,7 @@ WheelsController::WheelsController( char* filename ){
 	// Opens motor serial hardware interface i.e. UART01
 	motorController_fd = open(filename, O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
 	if( motorController_fd <= 0 ){
-		DEBUG_PRINT("Serial Port not opened. fd=%d\n", motorController_fd);
+		DEBUG_PRINT("WheelsController: Serial Port not opened. fd=%d\n", motorController_fd);
 		//exit(1);
 	}
 }
@@ -40,7 +40,7 @@ void WheelsController::write_cmd(unsigned char data[]){
 	// Writes serial data of size data. Just in case it wasn't clear.
 	int ret = write(motorController_fd, data, sizeof(data));
 	if(ret <= 0){
-		DEBUG_PRINT("WheelsController: WriteRetVal=%d",ret);
+		DEBUG_PRINT("WheelsController: WriteRetVal=%d\n",ret);
 	}
 }
 

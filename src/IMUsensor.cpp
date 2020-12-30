@@ -29,14 +29,17 @@ and writes from specified adresses on each device.
 #include <fstream>
 
 #include "../include/log.h"
-//#include "../include/getData.h"
 #include "../include/IMUsensor.h"
+
+
+#define MOCK_DEVICES
+
 
 IMUsensor::IMUsensor( char* filename ){
       // Opens motor serial hardware interface i.e. UART01
    IMUsensor_fd = open(filename, O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
    if( IMUsensor_fd <= 0 ){
-      DEBUG_PRINT("Serial Port not opened. fd=%d\n", IMUsensor_fd);
+      DEBUG_PRINT("IMUsensor::Serial Port not opened. fd=%d\n", IMUsensor_fd);
       this->connectedStatus = false;
    }
    this->connectedStatus = false;
@@ -89,12 +92,12 @@ void IMUsensor::read_sensor( unsigned char data[], unsigned char addr, unsigned 
 	
 	sprintf(filename,"/dev/i2c-1");
 	if ((file = open(filename,O_RDWR)) < 0) {
-		DEBUG_PRINT("Failed to open the bus.");
+		DEBUG_PRINT("IMUsensor: Failed to open the bus.\n");
 		/* ERROR HANDLING; you can check errno to see what went wrong */
 		exit(1);
 	}
 	if (ioctl(file,I2C_SLAVE,addr) < 0) {
-		printf("Failed to acquire bus access and/or talk to slave.\n");
+		DEBUG_PRINT("IMUsensor: Failed to acquire bus access and/or talk to slave.\n");
 		/* ERROR HANDLING; you can check errno to see what went wrong */
 		exit(1);
 	}
@@ -105,13 +108,13 @@ void IMUsensor::read_sensor( unsigned char data[], unsigned char addr, unsigned 
 		reg++;
 		if (write(file,buf,1) != 1) {
 			/* ERROR HANDLING: i2c transaction failed */
-			printf("Failed to write to the i2c bus. Errno = %d\n", errno);
-			printf("\n\n");
+			DEBUG_PRINT("IMUsensor: Failed to write to the i2c bus. Errno = %d\n", errno);
+			DEBUG_PRINT("\n\n");
       }
       if (read(file,buf,1) != 1) {
          /* ERROR HANDLING: i2c transaction failed */
-         printf("Failed to read from the i2c bus. Errno = %d\n", errno);         
-         printf("\n\n");
+         DEBUG_PRINT("IMUsensor: Failed to read from the i2c bus. Errno = %d\n", errno);         
+         DEBUG_PRINT("\n\n");
       } else {
          data[i]=buf[0];
          //DEBUG_PRINT("buf %d: %x\n", i, data[i]);
