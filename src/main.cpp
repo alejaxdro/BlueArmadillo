@@ -47,7 +47,7 @@ int main (int argc, char* argv[])
 	}
 
 	bool search_bool = true;
-	int angle = 0;
+	int angle = 0, lastAngle = 0;
 	int motorSpeed = 0;
 	double MAX_SPEED = 100.0;
 	double MAX_ANGLE = 180.0;
@@ -69,9 +69,12 @@ int main (int argc, char* argv[])
 		}else{
 			motor.motor1Control( motorSpeed, MIXEDRIGHT );
 		}
-
-		DEBUG_PRINT("MotorSpeed: %d, Angle: %d\n", motorSpeed, angle);
-		myfile << motorSpeed <<","<< angle << "\n";
+		
+		if(angle > lastAngle || angle < lastAngle){
+			DEBUG_PRINT("MotorSpeed: %d, Angle: %d\n", motorSpeed, angle);
+			myfile << motorSpeed <<","<< angle << "\n";
+			lastAngle = angle;
+		}
 		
 		if(abs(angle) < 1){
 			// Stop and exit

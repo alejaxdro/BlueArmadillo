@@ -41,8 +41,9 @@ IMUsensor::IMUsensor( char* filename ){
    if( IMUsensor_fd <= 0 ){
       DEBUG_PRINT("IMUsensor::Serial Port not opened. fd=%d\n", IMUsensor_fd);
       this->connectedStatus = false;
+	  return;
    }
-   this->connectedStatus = false;
+   this->connectedStatus = true;
    DEBUG_PRINT("IMUsensor::Serial Port Opened.\n");
    IMUsensor::init();
 }
