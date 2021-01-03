@@ -54,7 +54,18 @@ IMUsensor::~IMUsensor(){
 
 int IMUsensor::init( void ){
    int ret = 0;
-   DEBUG_PRINT("IMUsensor::Init() Passed.\n");
+
+   // Initialize 9-axis Sensors
+   //DEBUG_PRINT("Redo this without System Calls...");
+	ret = system( "i2cset -y 1 0x1d 0x20 0x57" ); // ctrl1	
+   system( "i2cset -y 1 0x1d 0x21 0x20" ); // ctrl2
+	system( "i2cset -y 1 0x1d 0x24 0xF0" ); // ctrl5 Enables Temp and Sets magn data rate to 50Hz
+	system( "i2cset -y 1 0x1d 0x25 0x20" ); // ctrl6
+	system( "i2cset -y 1 0x1d 0x26 0x80" ); // ctrl7 Normal Mode
+	DEBUG_PRINT( "System Calls.. accel_mag on\n" );
+	system( "i2cset -y 1 0x6b 0x20 0x0f" ); // ctrl1
+	DEBUG_PRINT( "System Calls.. gyro on\n" );
+   //DEBUG_PRINT("IMUsensor::Init() Passed.\n");
    return ret;
 }
 
@@ -79,9 +90,9 @@ SENSOR_BUF IMUsensor::getDataMagn(){
    magn.data.x.val = ~magn.data.x.val + 1;
    magn.data.y.val = ~magn.data.y.val + 1;
    magn.data.z.val = ~magn.data.z.val + 1;
+   // Display Data
+   //DEBUG_PRINT(" X val = %d\n Y val = %d\n Z val = %d \n",magn.data.x.val,magn.data.y.val, magn.data.z.val);      
    return  magn;
-// Display Data
-      //DEBUG_PRINT(" X val = %d\n Y val = %d\n Z val = %d \n",magn.data.x.val,magn.data.y.val, magn.data.z.val);      
 }
 
 

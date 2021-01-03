@@ -70,7 +70,9 @@ int main (int argc, char* argv[])
 			motor.motor1Control( motorSpeed, MIXEDRIGHT );
 		}
 		
-		if(angle > lastAngle || angle < lastAngle){
+		int low_range = lastAngle - 5;
+		int high_range = lastAngle + 5;
+		if(angle > high_range || angle < low_range){
 			DEBUG_PRINT("MotorSpeed: %d, Angle: %d\n", motorSpeed, angle);
 			myfile << motorSpeed <<","<< angle << "\n";
 			lastAngle = angle;
