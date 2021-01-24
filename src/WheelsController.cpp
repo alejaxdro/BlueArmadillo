@@ -19,9 +19,10 @@ WheelsController::WheelsController( char* filename ){
 	// Opens motor serial hardware interface i.e. UART01
 	motorController_fd = open(filename, O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
 	if( motorController_fd <= 0 ){
-		DEBUG_PRINT("WheelsController: Serial Port not opened. fd=%d\n", motorController_fd);
-		//exit(1);
+		DEBUG_PRINT("WheelsController:: Serial Port not opened. fd=%d\n", motorController_fd);
+		return;
 	}
+	DEBUG_PRINT("WheelsController::Serial Port Opened.\n");
 }
 
 WheelsController::~WheelsController(){

@@ -39,17 +39,17 @@ IMUsensor::IMUsensor( char* filename ){
       // Opens motor serial hardware interface i.e. UART01
    IMUsensor_fd = open(filename, O_RDWR|O_NOCTTY|O_NDELAY|O_NONBLOCK);
    if( IMUsensor_fd <= 0 ){
-      DEBUG_PRINT("IMUsensor::Serial Port not opened. fd=%d\n", IMUsensor_fd);
+      DEBUG_PRINT("IMUsensor::I2C Port not opened. fd=%d\n", IMUsensor_fd);
       this->connectedStatus = false;
 	  return;
    }
    this->connectedStatus = true;
-   DEBUG_PRINT("IMUsensor::Serial Port Opened.\n");
+   DEBUG_PRINT("IMUsensor::I2C Port Opened.\n");
    IMUsensor::init();
 }
 
 IMUsensor::~IMUsensor(){
-   DEBUG_PRINT("Close Serial Port\n");
+   DEBUG_PRINT("IMUsensor::Close I2C Port\n");
 }
 
 int IMUsensor::init( void ){

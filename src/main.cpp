@@ -11,7 +11,7 @@ using namespace std;
 #include <cmath>
 
 #include "../include/log.h"
-#include "../include/motorControl.h"
+//#include "../include/motorControl.h"
 #include "../include/WheelsController.h"
 #include "../include/IMUsensor.h"
 
@@ -46,7 +46,7 @@ int main (int argc, char* argv[])
 		DEBUG_PRINT("Main: imuSensor Not Connected.\n");
 	}
 
-	bool search_bool = true;
+	bool search_bool = false;
 	int angle = 0, lastAngle = 0;
 	int motorSpeed = 0;
 	double MAX_SPEED = 100.0;
@@ -56,7 +56,7 @@ int main (int argc, char* argv[])
 	DEBUG_PRINT("Main: Tracking 0 ...\n");
 	time(&start1);
 	while(search_bool){
-		// TODO: use class call. SENSOR_BUF magn = getData();
+		
 		SENSOR_BUF magn = imuSensor.getDataMagn();
 		angle = xy2deg(magn.data.x.val, magn.data.y.val);
 
@@ -84,32 +84,35 @@ int main (int argc, char* argv[])
 			//search_bool = false;
 		}
 	}
-/*    for(int i = 0; i < 100; i++){
-		if(i == 5){
-			DEBUG_PRINT("Start Moving");
-			motor.motor1Control( 100, MIXEDLEFT );
+	
+	if(!search_bool){
+		SENSOR_BUF magnData[10000];
+		for(int i = 0; i < 10000; i++){
+			if(i == 5){
+				//DEBUG_PRINT("Start Moving");
+				motor.motor1Control( 100, MIXEDLEFT );
+			}
+			magnData[i] = imuSensor.getDataMagn();
+			//DEBUG_PRINT("%d, %d, %d, %d \n", i,magnData[i].data.x.val,magnData[i].data.y.val, magnData[i].data.z.val);  
+			//myfile << i <<","<< xy2deg(magnData[i].data.x.val, magnData[i].data.y.val) << "\n";
 		}
-		getData();
-		magnData[i].data = magn.data;
-		//DEBUG_PRINT("%d, %d, %d, %d \n", i,magnData[i].data.x.val,magnData[i].data.y.val, magnData[i].data.z.val);  
-		myfile << i <<","<< xy2deg(magnData[i].data.x.val, magnData[i].data.y.val) << "\n";
-   }
- */   
-	time(&end1);
-	DEBUG_PRINT("Time: Diff: %f\n", difftime( end1, start1 ));//CLOCKS_PER_SEC);
-	// measured 57 seconds for 10000 reads of Magnetometer 
-	// 	57/10000 = .0057 secs/sample ==> ~175 samples per second
 
-	//motor.motor1Control( 100, MIXEDLEFT );
-	//DEBUG_PRINT("Turn Left\n");
-	//sleep(1);
+		time(&end1);
+		DEBUG_PRINT("Time: Diff: %f\n", difftime( end1, start1 ));//CLOCKS_PER_SEC);
+		// measured 57 seconds for 10000 reads of Magnetometer 
+		// 	57/10000 = .0057 secs/sample ==> ~175 samples per second
 
-	// Stop
-	motor.motor1Control( 0, MIXEDFORWARD );
+		//motor.motor1Control( 100, MIXEDLEFT );
+		//DEBUG_PRINT("Turn Left\n");
+		//sleep(1);
 
-	DEBUG_PRINT("End of Program\n");
-	cout << endl;
-	myfile.close();
+		// Stop
+		motor.motor1Control( 0, MIXEDFORWARD );
+
+		DEBUG_PRINT("End of Program\n");
+		cout << endl;
+		myfile.close();
+	}
 	return 0;
 }
 
