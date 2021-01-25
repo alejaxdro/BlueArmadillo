@@ -46,7 +46,7 @@ int main (int argc, char* argv[])
 		DEBUG_PRINT("Main: imuSensor Not Connected.\n");
 	}
 
-	bool search_bool = false;
+	bool search_bool = true;
 	int angle = 0, lastAngle = 0;
 	int motorSpeed = 0;
 	double MAX_SPEED = 100.0;
@@ -59,7 +59,7 @@ int main (int argc, char* argv[])
 		
 		SENSOR_BUF magn = imuSensor.getDataMagn();
 		angle = xy2deg(magn.data.x.val, magn.data.y.val);
-
+		
 		// Calculate motor speed
 		motorSpeed = (double) angle * 270.0/MAX_ANGLE;
 		motorSpeed = limit( motorSpeed, MIN_SPEED, MAX_SPEED );
