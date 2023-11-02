@@ -2,7 +2,7 @@
 ** 
 ** Commands for communicating with RoboClaw r3 sold by Pololu.com
 **
-** Written by: Alejandro Lepervanche
+** Written by: Alejandro 
 ** For Everyone, By Engineers
 ** 
 ** This software is to be used
