@@ -2,7 +2,7 @@
 ** 
 ** https://www.pololu.com/product/2468
 **
-** Written by: Alejandro Lepervanche
+** Written by: Alejandro
 ** For Everyone, By Engineers
 ** 
 ** Starting with LSM303D 3D accelerometer and 3D magnetometer
