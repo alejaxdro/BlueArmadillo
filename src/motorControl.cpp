@@ -2,7 +2,7 @@
 // //
 // // Commands for communicating with RoboClaw r3 sold by Pololu.com
 // // 
-// // Written by: Alejandro Lepervanche
+// // Written by: Alejandro
 
 // #include <cstdlib>
 // #include <unistd.h> // read/write/close
