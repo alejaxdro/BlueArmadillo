@@ -9,3 +9,5 @@ Devices used:
 - Beaglebone Black
 - Roboclaw Motor Controller
 - Pololu 9axis sensor
+
+News Coverage of Prototype at University of North Florida [news link](https://www.actionnewsjax.com/news/local/unf-students-design-interactive-toys-zoo-animals/43359484/)
